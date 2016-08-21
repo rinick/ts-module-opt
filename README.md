@@ -16,7 +16,7 @@ ts-module-opt -r typings/index.d.ts modulePath1 modulePath2
 ```
 
 ### parameters
- * -r : add a reference path
+ * -r : add a reference file path to the tsc compiler
 
 ### benifits
 
