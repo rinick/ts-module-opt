@@ -1,0 +1,13 @@
+{
+  "files" : [
+    "module_dir/my_module.ts"
+  ],
+  "compilerOptions": {
+    "module": "system",
+    "target": "es6",
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

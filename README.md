@@ -35,3 +35,4 @@ ts-module-opt -r typings/index.d.ts modulePath1 modulePath2
  * require tsc to be in system path
  * all typescript files in directory need to be in same module
  * if a type need to be used in a different file, that type must be exported even these files are in same module
+ * resolving dependency might not be 100% correct, and it requires the ts source code to use 4 spaces padding

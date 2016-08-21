@@ -7,7 +7,7 @@ const Path = require('path');
 let moduleReg = /(^|\n)module ([a-zA-Z]\w+) /;
 
 let reg0 = /extends ([A-Z]\w+)/g;
-let reg1 = /(\/\/\/requires|implements) (([A-Z]\w+[, ]+)+)/g;
+let reg1 = /(\/\/\/requires|implements) (([A-Z]\w+[, ]*)+)/g;
 let reg2 = /\n    [^ \n][^\n]* = (new )?([A-Z]\w+)/g;
 
 let reg3 = /export (class|interface) ([A-Z]\w+)/g;
@@ -73,6 +73,7 @@ function analyzeFolder(folder, foldername) {
 }
 
 function resolve() {
+    console.log(dict);
     // find the correct order of modules
     while (true) {
         let found = false;
