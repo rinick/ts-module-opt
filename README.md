@@ -16,13 +16,20 @@ ts-module-opt -r typings/index.d.ts modulePath1 modulePath2
 ```
 
 ### parameters
- * -r : add a reference file path to the tsc compiler
+ * **--reference {path}**: add a reference file path to the tsc compiler
+   * or **-r {path}** 
+ * **--target es5**: change the tsc targert to es5, default is es6
+   * or **-t es5** 
+ * **--declaration**: generate the typescript declaration file (.d.ts)
+    * or **-d** 
+ * **--sourceMap**: generate the source map
 
 ### benifits
 
  * a main ts file is generate for the directory to maintain all the reference paths
  * all module files are compiled into same scope
- * reference to `ModuleName.TypeName` is optimited to just `TypeName` when they are in same module
+ * exported types are compiled into same scope in the declaration
+ * reference to **ModuleName.TypeName** is optimited to just **TypeName** when they are in same module
 
 ### limitations
  * require tsc to be in system path

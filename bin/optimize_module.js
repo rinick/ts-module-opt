@@ -24,4 +24,16 @@ function optimize_module(path, moduleName) {
     Fs.writeFileSync(path, rows.join('\n'));
 }
 
+
+function optimize_declaration(path, moduleName) {
+    // merge declaration to single scope
+    let search = new RegExp(`\\}\\r?\\ndeclare module breezeflow \\{`,'g');
+
+    let result = Fs.readFileSync(path, 'utf8').replace(search, '\n');
+
+
+    Fs.writeFileSync(path, result);
+}
+
 module.exports.optimize_module = optimize_module;
+module.exports.optimize_declaration = optimize_declaration;

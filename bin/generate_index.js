@@ -64,7 +64,7 @@ let outputs = [];
 function analyzeFolder(folder, foldername) {
     console.log(`analyzing ${folder}`);
     for (let str of Fs.readdirSync(folder)) {
-        if (str.endsWith('.ts')) {
+        if (str.endsWith('.ts') && !str.endsWith('.d.ts')) {
             analyzeFile(folder, foldername, str, dict, classes, modules);
         } else if (!str.includes('.')) {
             analyzeFolder(folder + '/' + str, foldername + str + '/');
