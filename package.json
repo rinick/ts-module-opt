@@ -1,10 +1,10 @@
 {
-  "name": "ts-module-optimzer",
+  "name": "ts-module-opt",
   "version": "0.0.1",
   "description": "compile muti-files typescript module into same scope ",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rinick/ts-module-optimizer"
+    "url": "https://github.com/rinick/ts-module-opt"
   },
   "main": "bin/run.js",
   "author": {
