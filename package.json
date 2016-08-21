@@ -1,0 +1,15 @@
+{
+  "name": "ts-module-optimzer",
+  "version": "0.0.1",
+  "description": "compile muti-files typescript module into same scope ",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rinick/ts-module-optimizer"
+  },
+  "main": "bin/run.js",
+  "author": {
+    "name": "Rick Zhou",
+    "email": "rinick@gmail.com"
+  },
+  "license": "Apache-2.0"
+}

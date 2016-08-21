@@ -3,7 +3,7 @@
 const Fs = require('fs');
 const Path = require('path');
 
-export function optimize_module(path, moduleName) {
+function optimize_module(path, moduleName) {
     // merge modules to single scope
     let search = new RegExp(`\\}\\)\\(${moduleName} \\|\\| \\(${moduleName} = \\{\\}\\)\\);\\r?\\nvar ${moduleName};\\r?\\n\\(function \\(${moduleName}\\) \\{`,'g');
 
@@ -23,3 +23,5 @@ export function optimize_module(path, moduleName) {
 
     Fs.writeFileSync(path, rows.join('\n'));
 }
+
+module.exports.optimize_module = optimize_module;

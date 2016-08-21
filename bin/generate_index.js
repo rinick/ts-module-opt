@@ -3,36 +3,40 @@
 const Fs = require('fs');
 const Path = require('path');
 
-let srcPath = Path.resolve(__dirname, '../src');
 
-let outputs = [];
-function readTs(folder, file) {
-
-}
+let moduleReg = /(^|\n)module ([a-zA-Z]\w+) /;
 
 let reg0 = /extends ([A-Z]\w+)/g;
-let reg1 = /implements (([A-Z]\w+[, ]+)+)/g;
-let reg2 = /= ([A-Z]\w+)\./g;
+let reg1 = /(\/\/\/requires|implements) (([A-Z]\w+[, ]+)+)/g;
+let reg2 = /\n    [^ \n][^\n]* = (new )?([A-Z]\w+)/g;
 
 let reg3 = /export (class|interface) ([A-Z]\w+)/g;
 
-function analyzeFile(folder, foldername, file, dict, classes) {
+function analyzeFile(folder, foldername, file, dict, classes, modules) {
     let name = file.substr(0, file.length - 3);
     let data = Fs.readFileSync(folder + '/' + file, 'utf8');
+
+    let moduleMatch = data.match(moduleReg);
+    if (!moduleMatch) {
+        return;
+    }
+    modules.add(moduleMatch[2]);
+
+
     let deps = new Set();
     let myclass = new Set();
     data.replace(reg0, function (m, m1) {
         // find extends
         deps.add(m1);
     });
-    data.replace(reg1, function (m, m1) {
+    data.replace(reg1, function (m, m1, m2) {
         // find implements
-        for (let m2 of m1.split(','))
-            deps.add(m2.trim());
+        for (let dep of m2.split(','))
+            deps.add(dep.trim());
     });
-    data.replace(reg2, function (m, m1) {
+    data.replace(reg2, function (m, m1, m2) {
         // find assignment
-        deps.add(m1);
+        deps.add(m2);
     });
 
     data.replace(reg3, function (m, m1, m2) {
@@ -54,19 +58,17 @@ function analyzeFile(folder, foldername, file, dict, classes) {
 
 let dict = {};
 let classes = new Set();
+let modules = new Set();
+let outputs = [];
 
-function readFolder(folder, foldername) {
-    let subfolders = [];
+function analyzeFolder(folder, foldername) {
+    console.log(`analyzing ${folder}`);
     for (let str of Fs.readdirSync(folder)) {
         if (str.endsWith('.ts')) {
-            analyzeFile(folder, foldername, str, dict, classes);
+            analyzeFile(folder, foldername, str, dict, classes, modules);
         } else if (!str.includes('.')) {
-            subfolders.push(str);
+            analyzeFolder(folder + '/' + str, foldername + str + '/');
         }
-    }
-
-    for (let str of subfolders) {
-        readFolder(folder + '/' + str, foldername + str + '/');
     }
 }
 
@@ -97,10 +99,26 @@ function resolve() {
     }
 }
 
-readFolder(Path.resolve(srcPath, 'util'), 'util/');
-readFolder(Path.resolve(srcPath, 'core'), 'core/');
-readFolder(Path.resolve(srcPath, 'logic'), 'logic/');
 
-resolve();
+function generate_index(path) {
+    dict = {};
+    classes = new Set();
+    modules = new Set();
+    outputs = [];
 
-Fs.writeFileSync(Path.resolve(srcPath, 'breezeflow.ts'), outputs.join('\n'));
+    analyzeFolder(path, '');
+
+    if (modules.size == 1) {
+        let moduleName = modules.values().next().value;
+        resolve();
+
+        Fs.writeFileSync(Path.resolve(path, `${moduleName}.ts`), outputs.join('\n'));
+        return moduleName;
+    } else {
+        throw 'multiple modules found: ' + modules.values();
+    }
+}
+
+module.exports.generate_index = generate_index;
+
+

@@ -1,6 +1,9 @@
 const Fs = require('fs');
 const Path = require('path');
 
+const generate_index = require('./generate_index').generate_index;
+const optimize_module = require('./optimize_module').optimize_module;
+
 let arglen = process.argv.length;
 
 let references = [];
@@ -13,22 +16,23 @@ for (let i = 2; i < arglen; ++i) {
         continue;
     }
 
-    let name = Path.base(path);
-    if (!/^\w+$/.test(name) || !Fs.lstatSync(path).isDirectory()) {
-        console.warn(`${path} is not a valid module directory`);
+    if (!Fs.lstatSync(path).isDirectory()) {
+        console.warn(`${path} is not a directory`);
         continue;
     }
+
+    let name = generate_index(path);
+
+    let input = Path.resolve(path, name + '.ts');
     let output = Path.resolve(path, name + '.js');
 
-    require('./generate_index');
-
-    let command = `tsc --noImplicitAny true --target es6 --sourceMap false --module system --outFile ${output} ${references.join(" ")} path`;
+    let command = `tsc --noImplicitAny --target es6 --module system --outFile ${output} ${references.join(" ")} ${input}`;
     require('child_process').exec(command, (error, stdout, stderr) => {
         if (error) {
             console.error(error);
             return;
         }
-        require('./optimize_module').optimize_module(output, name);
+        optimize_module(output, name);
     });
 }
 
