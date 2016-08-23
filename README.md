@@ -1,5 +1,10 @@
 compile multi-files based ts module into same scope
 
+first it generate a index ts file that contains all the reference file paths of this module
+
+the it compile a js from the generated ts file
+
+
 install
 ```
 npm install -g ts-module-opt
@@ -10,7 +15,7 @@ compile a module directory
 ts-module-opt -r typings/index.d.ts src
 ```
 
-compile multiple module directories
+compile multiple module directories, generate a js file for each module
 ```
 ts-module-opt -r typings/index.d.ts modulePath1 modulePath2
 ```

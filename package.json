@@ -10,6 +10,10 @@
   "bin": {
     "ts-module-opt": "bin/run.js"
   },
+  "dependencies": {
+    "typescript": "^1.8.10"
+  },
+
   "author": {
     "name": "Rick Zhou",
     "email": "rinick@gmail.com"

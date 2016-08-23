@@ -1,7 +1,5 @@
-"use strict";
-
-const Fs = require('fs');
-const Path = require('path');
+import Fs = require('fs');
+import Path = require('path');
 
 
 let moduleReg = /(^|\n)module ([a-zA-Z]\w+) /;
@@ -12,7 +10,7 @@ let reg2 = /\n    [^ \n][^\n]* = (new )?([A-Z]\w+)/g;
 
 let reg3 = /export (class|interface) ([A-Z]\w+)/g;
 
-function analyzeFile(folder, foldername, file, dict, classes, modules) {
+function analyzeFile(folder:string, foldername:string, file:string, dict:Object, classes:Set<string>, modules:Set<string>) {
     let name = file.substr(0, file.length - 3);
     let data = Fs.readFileSync(folder + '/' + file, 'utf8');
 
@@ -25,24 +23,28 @@ function analyzeFile(folder, foldername, file, dict, classes, modules) {
 
     let deps = new Set();
     let myclass = new Set();
-    data.replace(reg0, function (m, m1) {
+    data.replace(reg0, function (m, m1):string {
         // find extends
         deps.add(m1);
+        return '';
     });
-    data.replace(reg1, function (m, m1, m2) {
+    data.replace(reg1, function (m, m1, m2):string {
         // find implements
         for (let dep of m2.split(','))
             deps.add(dep.trim());
+        return '';
     });
-    data.replace(reg2, function (m, m1, m2) {
+    data.replace(reg2, function (m, m1, m2):string {
         // find assignment
         deps.add(m2);
+        return '';
     });
 
-    data.replace(reg3, function (m, m1, m2) {
+    data.replace(reg3, function (m, m1, m2):string {
         // find export class
         classes.add(m2);
         myclass.add(m2);
+        return '';
     });
     for (let c of myclass) {
         deps.delete(c);
@@ -56,12 +58,12 @@ function analyzeFile(folder, foldername, file, dict, classes, modules) {
     };
 }
 
-let dict = {};
-let classes = new Set();
-let modules = new Set();
-let outputs = [];
+let dict:Object= {};
+let classes:Set<string> = new Set();
+let modules:Set<string> = new Set();
+let outputs:string[] = [];
 
-function analyzeFolder(folder, foldername) {
+function analyzeFolder(folder:string, foldername:string) {
     console.log(`analyzing ${folder}`);
     for (let str of Fs.readdirSync(folder)) {
         if (str.endsWith('.ts') && !str.endsWith('.d.ts')) {
@@ -73,7 +75,6 @@ function analyzeFolder(folder, foldername) {
 }
 
 function resolve() {
-    console.log(dict);
     // find the correct order of modules
     while (true) {
         let found = false;
@@ -101,7 +102,7 @@ function resolve() {
 }
 
 
-function generate_index(path) {
+export function generate_index(path:string):string {
     dict = {};
     classes = new Set();
     modules = new Set();
@@ -120,6 +121,5 @@ function generate_index(path) {
     }
 }
 
-module.exports.generate_index = generate_index;
 
 

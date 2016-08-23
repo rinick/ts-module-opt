@@ -1,0 +1,17 @@
+{
+  "files" : [
+    "bin/run.ts",
+    "bin/optimize.ts",
+    "bin/generate.ts",
+    "typings/index.d.ts"
+  ],
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es6",
+    "sourceMap": false
+  },
+  "exclude": [
+    "node_modules",
+    "example"
+  ]
+}
