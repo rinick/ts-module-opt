@@ -1,11 +1,19 @@
 {
   "name": "ts-module-opt",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "compile muti-files typescript module into same scope ",
   "repository": {
     "type": "git",
     "url": "https://github.com/rinick/ts-module-opt"
   },
+  "keywords": [
+    "typescript",
+    "module",
+    "merge",
+    "optmize",
+    "compile",
+    "reference"
+  ],
   "main": "bin/run.js",
   "bin": {
     "ts-module-opt": "bin/run.js"

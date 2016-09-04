@@ -52,6 +52,7 @@ for (let i = 2; i < argLen; ++i) {
     let command = `node node_modules/typescript/lib/tsc.js --noImplicitAny ${declaration} ${sourceMap} --target ${tscTarget} --module system --outFile ${output} ${references.join(" ")} ${input}`;
     require('child_process').exec(command, function(error, stdout, stderr) {
         if (error) {
+            console.log(stdout);
             console.error(error);
             return;
         }
