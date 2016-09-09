@@ -6,8 +6,7 @@ let reg0 = /extends ([A-Z]\w+)/g;
 let reg1 = /(\/\/\/requires|implements) (([A-Z]\w+[, ]*)+)/g;
 let reg2 = /\n    [^ \n][^\n]* = (new )?([A-Z]\w+)/g;
 let reg4 = /\n        static [^\n]*: ([A-Z]\w+)[^\n()]*$/g;
-
-let reg_t = /export (class|interface) ([A-Z]\w+)/g;
+let reg_t = /export (class|interface|type) ([A-Z]\w+)/g;
 function analyzeFile(folder, foldername, file, dict, classes, modules) {
     let name = file.substr(0, file.length - 3);
     let data = Fs.readFileSync(folder + '/' + file, 'utf8');
