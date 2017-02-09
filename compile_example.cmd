@@ -1,0 +1,1 @@
+node  bin\run.js example\module_dir

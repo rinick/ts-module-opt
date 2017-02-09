@@ -1,5 +1,5 @@
 "use strict";
-const Fs = require('fs');
+const Fs = require("fs");
 function optimize_module(path, moduleName) {
     // merge modules to single scope
     let search = new RegExp(`\\}\\)\\(${moduleName} \\|\\| \\(${moduleName} = \\{\\}\\)\\);\\r?\\nvar ${moduleName};\\r?\\n\\(function \\(${moduleName}\\) \\{`, 'g');

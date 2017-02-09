@@ -1,6 +1,6 @@
 "use strict";
-const Fs = require('fs');
-const Path = require('path');
+const Fs = require("fs");
+const Path = require("path");
 let moduleReg = /(^|\n)module ([a-zA-Z]\w+) /;
 let reg0 = /extends ([A-Z]\w+)/g;
 let reg1 = /(\/\/\/requires|implements) (([A-Z]\w+[, ]*)+)/g;

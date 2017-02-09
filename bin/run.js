@@ -1,8 +1,8 @@
 "use strict";
-const Fs = require('fs');
-const Path = require('path');
-const Generate = require('./generate');
-const Optimize = require('./optimize');
+const Fs = require("fs");
+const Path = require("path");
+const Generate = require("./generate");
+const Optimize = require("./optimize");
 let argLen = process.argv.length;
 let references = [];
 let tscTarget = 'es6';
