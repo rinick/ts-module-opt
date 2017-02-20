@@ -9,7 +9,7 @@ let reg1 = /(\/\/\/requires|implements) (([A-Z]\w+[, ]*)+)/g;
 let reg2 = /\n    [^ \n][^\n]* = (new )?([A-Z]\w+)/g;
 let reg4 = /\n        static [^\n]*: ([A-Z]\w+)[^\n()]*$/g;
 
-let reg_t = /export (class|interface|type) ([A-Z]\w+)/g;
+let reg_t = /export( abstract)? (class|interface|type) ([A-Z]\w+)/g;
 
 function analyzeFile(folder:string, foldername:string, file:string, dict:Object, classes:Set<string>, modules:Set<string>) {
     let name = file.substr(0, file.length - 3);
@@ -46,10 +46,10 @@ function analyzeFile(folder:string, foldername:string, file:string, dict:Object,
         deps.add(m1);
         return '';
     });
-    data.replace(reg_t, function (m, m1, m2) {
+    data.replace(reg_t, function (m, m1, m2, m3) {
         // find export class
-        classes.add(m2);
-        myclass.add(m2);
+        classes.add(m3);
+        myclass.add(m3);
         return '';
     });
     for (let c of myclass) {
