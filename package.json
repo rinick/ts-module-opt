@@ -1,6 +1,6 @@
 {
   "name": "ts-module-opt",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "compile muti-files typescript module into same scope ",
   "repository": {
     "type": "git",
